@@ -1,0 +1,11 @@
+# never publish the full private catalog
+catalog.json
+
+# never publish private photo folder
+fotos_haciendas/
+
+# Jupyter and temp files, etc.
+*.ipynb
+__pycache__/
+*.pyc
+.DS_Store
