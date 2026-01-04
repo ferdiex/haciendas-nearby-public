@@ -74,6 +74,31 @@ TEXTS: Dict[str, Dict[str, str]] = {
         "es": "Todos los filtros se aplican únicamente a las haciendas dentro del radio seleccionado.",
         "en": "All filters apply only to haciendas inside the selected radius.",
     },
+    # New: quick help in the sidebar
+    "sidebar_help_header": {
+        "es": "Ayuda rápida",
+        "en": "Quick help",
+    },
+    "sidebar_help_text": {
+        "es": (
+            "- Selecciona el idioma en la parte superior.\n"
+            "- Ajusta el centro de búsqueda con latitud/longitud o usa el botón para reiniciar a Amalucan.\n"
+            "- Define el radio en kilómetros con el deslizador.\n"
+            "- Aplica filtros por nombre, región o presencia de foto.\n"
+            "- Explora resultados en la tabla y en el mapa interactivo.\n"
+            "- Haz clic en una hacienda para ver detalles y foto (si disponible).\n"
+            "- Exporta los resultados en CSV, GeoJSON o GPX."
+        ),
+        "en": (
+            "- Choose your language at the top.\n"
+            "- Set the search center with latitude/longitude or reset to Amalucan.\n"
+            "- Adjust the radius in kilometers using the slider.\n"
+            "- Apply filters by name, region, or photo availability.\n"
+            "- Explore results in the table and interactive map.\n"
+            "- Click a hacienda to view details and photo (if available).\n"
+            "- Export results as CSV, GeoJSON, or GPX."
+        ),
+    },
     "sidebar_filter_name_contains": {
         "es": "Filtrar por nombre (contiene)",
         "en": "Filter by name (contains)",
@@ -224,33 +249,6 @@ TEXTS: Dict[str, Dict[str, str]] = {
             "This is a public read-only version. "
             "Data comes from a catalog manually curated from the book and an original KML. "
             "You can explore, filter, change the center, and export, but cannot modify the catalog."
-        ),
-    },
-    # ----------------------------------------------------------------
-    # Sidebar quick help / Ayuda rápida en la barra lateral
-    # ----------------------------------------------------------------
-    "sidebar_help_header": {
-        "es": "Ayuda rápida",
-        "en": "Quick help",
-    },
-    "sidebar_help_text": {
-        "es": (
-            "- Selecciona el idioma en la parte superior.\n"
-            "- Ajusta el centro de búsqueda con latitud/longitud o usa el botón para reiniciar a Amalucan.\n"
-            "- Define el radio en kilómetros con el deslizador.\n"
-            "- Aplica filtros por nombre, región o presencia de foto.\n"
-            "- Explora resultados en la tabla y en el mapa interactivo.\n"
-            "- Haz clic en una hacienda para ver detalles y foto (si disponible).\n"
-            "- Exporta los resultados en CSV, GeoJSON o GPX."
-        ),
-        "en": (
-            "- Choose your language at the top.\n"
-            "- Set the search center with latitude/longitude or reset to Amalucan.\n"
-            "- Adjust the radius in kilometers using the slider.\n"
-            "- Apply filters by name, region, or photo availability.\n"
-            "- Explore results in the table and interactive map.\n"
-            "- Click a hacienda to view details and photo (if available).\n"
-            "- Export results as CSV, GeoJSON, or GPX."
         ),
     },
 }
@@ -510,10 +508,6 @@ with st.sidebar:
         key="lang",
     )
 
-    # Quick help directly under the language selector
-    st.header(t("sidebar_help_header"))
-    st.markdown(t("sidebar_help_text"))
-
 st.title(t("app_title"))
 
 # Initialize session defaults
@@ -588,6 +582,10 @@ only_without_photo = st.sidebar.checkbox(
 if only_with_photo and only_without_photo:
     only_without_photo = False
     st.sidebar.info(t("sidebar_conflicting_photo_filters"))
+
+# Sidebar: quick help (right below filters)
+st.sidebar.header(t("sidebar_help_header"))
+st.sidebar.markdown(t("sidebar_help_text"))
 
 # Load and normalize catalog
 catalog = load_catalog(CATALOG_JSON)
