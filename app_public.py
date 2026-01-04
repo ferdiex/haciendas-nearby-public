@@ -508,6 +508,7 @@ with st.sidebar:
         key="lang",
     )
 
+st.image("images/hacienda.png", width=250)
 st.title(t("app_title"))
 
 # Initialize session defaults
