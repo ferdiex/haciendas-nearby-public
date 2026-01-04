@@ -365,3 +365,27 @@ This project **does not** grant any additional rights over the book itself.
 - Streamlit community and open-source ecosystem.
 
 > **Gracias / Thank you** for using and exploring this public read-only viewer of Puebla’s haciendas.
+
+## 11. Live app and citation / App en vivo y citación
+
+### 11.1. Live public app / App pública en vivo
+
+The public, read-only version of this explorer is available on Streamlit Cloud:
+
+- Live app: https://haciendas-nearby.streamlit.app/  
+- Source code: https://github.com/ferdiex/haciendas-nearby-public
+
+> **Nota (español):**  
+> La app en Streamlit Cloud es una vista pública de solo lectura basada en este repositorio.
+
+### 11.2. Suggested citation / Citación sugerida
+
+If you use this tool in academic work, you may cite it as:
+
+> Montes-Gonzalez, F. ([2026]). *Haciendas Nearby – Public read-only explorer: Historical haciendas in Puebla (Mexico).*  
+> Streamlit web application. Retrieved from https://haciendas-nearby.streamlit.app/
+
+And for the underlying printed reference:
+
+> Guzmán-Álvarez, A. (2013). *Arquitectura de la memoria: haciendas poblanas.* Benemérita Universidad Autónoma de Puebla.  
+> Available in the IBERO Puebla catalog: https://biblio.iberopuebla.mx/cgi-bin/koha/opac-ISBDdetail.pl?biblionumber=172455
