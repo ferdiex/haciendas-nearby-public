@@ -375,7 +375,9 @@ The public, read-only version of this explorer is available on Streamlit Cloud:
 - Live app: https://haciendas-nearby.streamlit.app/  
 - Source code: https://github.com/ferdiex/haciendas-nearby-public
 
-![QR code to open the app](images/QR.jpg)
+<a href="https://haciendas-nearby.streamlit.app/" target="_blank">
+  <img src="images/QR.jpg" alt="QR code to open the app" width="300">
+</a>
 
 > **Nota (español):**  
 > La app en Streamlit Cloud es una vista pública de solo lectura basada en este repositorio.
