@@ -9,6 +9,13 @@ import streamlit as st
 import pandas as pd
 import pydeck as pdk
 
+# Haciendas Nearby – Public read-only app
+# Version: v1.0.0-public
+# Notes:
+#   - Uses catalog_public.json + fotos_public/ only.
+#   - Read-only: no writes, no KML maintenance, no manual haciendas.
+#   - Bilingual UI (es/en) via TEXTS + t().
+
 # --------------------------------------------------------------------
 # Settings and paths
 # --------------------------------------------------------------------
