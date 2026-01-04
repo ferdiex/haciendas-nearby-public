@@ -583,10 +583,6 @@ if only_with_photo and only_without_photo:
     only_without_photo = False
     st.sidebar.info(t("sidebar_conflicting_photo_filters"))
 
-# Sidebar: quick help (right below filters)
-st.sidebar.header(t("sidebar_help_header"))
-st.sidebar.markdown(t("sidebar_help_text"))
-
 # Load and normalize catalog
 catalog = load_catalog(CATALOG_JSON)
 raw_items = catalog.get("items", [])
@@ -605,6 +601,10 @@ region_filter = st.sidebar.selectbox(
     options=region_options,
     index=0,
 )
+
+# Sidebar: quick help (right below filters)
+st.sidebar.header(t("sidebar_help_header"))
+st.sidebar.markdown(t("sidebar_help_text"))
 
 # Main layout
 left, right = st.columns((1, 1))
