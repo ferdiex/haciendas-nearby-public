@@ -226,6 +226,33 @@ TEXTS: Dict[str, Dict[str, str]] = {
             "You can explore, filter, change the center, and export, but cannot modify the catalog."
         ),
     },
+    # ----------------------------------------------------------------
+    # Sidebar quick help / Ayuda rápida en la barra lateral
+    # ----------------------------------------------------------------
+    "sidebar_help_header": {
+        "es": "Ayuda rápida",
+        "en": "Quick help",
+    },
+    "sidebar_help_text": {
+        "es": (
+            "- Selecciona el idioma en la parte superior.\n"
+            "- Ajusta el centro de búsqueda con latitud/longitud o usa el botón para reiniciar a Amalucan.\n"
+            "- Define el radio en kilómetros con el deslizador.\n"
+            "- Aplica filtros por nombre, región o presencia de foto.\n"
+            "- Explora resultados en la tabla y en el mapa interactivo.\n"
+            "- Haz clic en una hacienda para ver detalles y foto (si disponible).\n"
+            "- Exporta los resultados en CSV, GeoJSON o GPX."
+        ),
+        "en": (
+            "- Choose your language at the top.\n"
+            "- Set the search center with latitude/longitude or reset to Amalucan.\n"
+            "- Adjust the radius in kilometers using the slider.\n"
+            "- Apply filters by name, region, or photo availability.\n"
+            "- Explore results in the table and interactive map.\n"
+            "- Click a hacienda to view details and photo (if available).\n"
+            "- Export results as CSV, GeoJSON, or GPX."
+        ),
+    },
 }
 
 
@@ -482,6 +509,10 @@ with st.sidebar:
         index=0 if st.session_state["lang"] == "es" else 1,
         key="lang",
     )
+
+    # Quick help directly under the language selector
+    st.header(t("sidebar_help_header"))
+    st.markdown(t("sidebar_help_text"))
 
 st.title(t("app_title"))
 
