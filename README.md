@@ -7,8 +7,10 @@
 **Haciendas Nearby – Public** is a read-only, bilingual (Spanish/English) web application built with [Streamlit](https://streamlit.io/).  
 The app provides an interactive explorer of historical *haciendas* in the state of Puebla (Mexico), based on a manually curated catalog derived from:
 
-- A printed reference book on Puebla haciendas:
-  * Álvarez, A. G. (2013). Arquitectura de la memoria: haciendas poblanas. Benemérita Universidad Autónoma de Puebla  
+- A printed reference book on Puebla haciendas:  
+  *Guzmán-Álvarez, A. (2013).* **Arquitectura de la memoria: haciendas poblanas**. Benemérita Universidad Autónoma de Puebla.  
+  Disponible en el catálogo de la IBERO Puebla:  
+  [Álvarez, A. G. (2013) – Ficha en el catálogo de la IBERO Puebla](https://biblio.iberopuebla.mx/cgi-bin/koha/opac-ISBDdetail.pl?biblionumber=172455)
 - An original KML dataset that was validated, cleaned, and georeferenced.
 
 This **public** version:
@@ -16,6 +18,10 @@ This **public** version:
 - Exposes only a *frozen* catalog (`catalog_public.json`) generated from a separate, private curation tool.
 - Does **not** allow any modification of the catalog (no edits, no new entries, no rating changes).
 - Focuses on exploration, filtering, map visualization, and export of the currently visible subset.
+
+> **Nota (español):**  
+> Esta app pública es un visor de solo lectura.  
+> No incluye la herramienta privada de edición ni los procesos detallados de curaduría.
 
 ---
 
@@ -34,12 +40,11 @@ The core dataset is stored in:
 
 The app further **normalizes** these items for public display:
 
-- Only items whose `source` is `"kml"` and that have a non-empty, assigned `region` are included.
 - Coordinates are validated and coerced to floats.
 - A computed `has_photo` flag indicates whether there is a usable *local* photo on disk.
 
-> **Note (español):**  
-> Este repositorio NO es la herramienta de edición del catálogo.  
+> **Nota (español):**  
+> Este repositorio **no** es la herramienta de edición del catálogo.  
 > Solo contiene una exportación pública, estática, en formato JSON más fotos locales.
 
 ---
@@ -161,7 +166,7 @@ The app implements a very simple but robust i18n strategy:
   - Optional runtime formatting parameters can be injected via `.format`.
 
 > **Nota (español):**  
-> Esto permite mantener el código de la interfaz en un solo archivo (`app_public.py`) al mismo tiempo que agrega soporte bilingüe sin dependencias externas.
+> Esto permite mantener el código de la interfaz en un solo archivo (`app_public.py`) y tener soporte bilingüe sin dependencias externas.
 
 ---
 
@@ -171,9 +176,11 @@ The app implements a very simple but robust i18n strategy:
 
 - Python 3.9+ (recommended).
 - A working Git installation.
-- (Optional but recommended) a virtual environment (e.g. `venv`, `conda`, `pyenv`).
+- (Optional but recommended) a virtual environment, either:
+  - `venv` (Python standard library), or  
+  - `conda` / `mamba` (Anaconda, Miniconda, etc.).
 
-The `requirements.txt` file defines the runtime dependencies:
+The `requirements.txt` file defines the minimal runtime dependencies:
 
 ```text
 streamlit
@@ -183,41 +190,56 @@ pydeck
 
 ### 5.2. Clone the repository / Clonar el repositorio
 
-On your local machine (Mac, Linux, or Windows):
+On your local machine (macOS, Linux, or Windows):
 
 ```bash
 git clone https://github.com/ferdiex/haciendas-nearby-public.git
 cd haciendas-nearby-public
 ```
 
-### 5.3. Create and activate a virtual environment / Crear y activar entorno virtual
+### 5.3. Option A – venv-based environment / Entorno con `venv`
 
-On macOS or Linux:
+**macOS or Linux:**
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-On Windows (PowerShell):
+**Windows (PowerShell):**
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-### 5.4. Install dependencies / Instalar dependencias
+Then install dependencies:
 
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
+### 5.4. Option B – Conda environment / Entorno con `conda`
+
+If you prefer `conda` (Anaconda or Miniconda):
+
+```bash
+conda create -n haciendas-nearby-public python=3.10
+conda activate haciendas-nearby-public
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+> **Nota (español):**  
+> Aunque `conda` también puede instalar paquetes, aquí se usa `pip` para respetar directamente `requirements.txt`.  
+> Si lo prefieres, puedes traducir ese archivo a un `environment.yml`.
+
 ---
 
 ## 6. Running the app locally / Ejecutar la app localmente
 
-From the root of the repository, with the virtual environment activated:
+From the root of the repository, with your environment activated (`venv` o `conda`):
 
 ```bash
 streamlit run app_public.py
@@ -238,97 +260,9 @@ Open that URL in your browser. You should see:
 
 ---
 
-## 7. Deployment on Streamlit Cloud / Despliegue en Streamlit Cloud
+## 7. Project structure / Estructura del proyecto
 
-Because the app is a standard Streamlit script, deploying to [Streamlit Community Cloud](https://streamlit.io/cloud) is straightforward:
-
-1. Push the repository to GitHub (see section 8 below).
-2. In Streamlit Cloud:
-   - Create a new app.
-   - Connect your GitHub account.
-   - Select the repo: `ferdiex/haciendas-nearby-public`.
-   - Select the main file: `app_public.py`.
-3. Configure secrets only if necessary (this public version typically does not require secrets).
-4. Deploy.
-
-Streamlit will provision the environment using `requirements.txt` and run `app_public.py` automatically.
-
----
-
-## 8. Git workflow: commit and push from the command line  
-## 8. Flujo de trabajo Git: commit y push desde la línea de comandos
-
-Below is a concise command-line workflow for macOS (applies similarly to Linux and Windows).
-
-### 8.1. Check repository status / Ver estado del repositorio
-
-```bash
-cd /path/to/haciendas-nearby-public
-git status
-```
-
-This shows:
-
-- Modified files (`app_public.py`, `README.md`, etc.).
-- Untracked files (new files that Git does not know yet).
-
-### 8.2. Stage your changes / Agregar cambios al área de staging
-
-To stage all modified and new files:
-
-```bash
-git add .
-```
-
-Or, to be more explicit and academic/clear:
-
-```bash
-git add README.md
-git add app_public.py
-git add catalog_public.json
-```
-
-### 8.3. Write a meaningful commit message / Crear un commit descriptivo
-
-Use a concise, descriptive message (English is recommended for consistency):
-
-```bash
-git commit -m "Add bilingual academic README and document public Streamlit app"
-```
-
-If Git complains about user identity (name/email), configure it once:
-
-```bash
-git config --global user.name "Your Name"
-git config --global user.email "your.email@example.com"
-```
-
-Then re-run the `git commit` command.
-
-### 8.4. Push to GitHub / Enviar cambios a GitHub
-
-Assuming the default branch is `main`:
-
-```bash
-git push origin main
-```
-
-If this is the first push and you get an error about the upstream branch, you can set it explicitly:
-
-```bash
-git push -u origin main
-```
-
-After a successful push:
-
-- The updated `README.md` and any code changes will be visible on GitHub.
-- If you have Streamlit Cloud configured, it will typically auto-redeploy with the latest version.
-
----
-
-## 9. Project structure / Estructura del proyecto
-
-A minimal expected layout is:
+The minimal expected layout is:
 
 ```text
 haciendas-nearby-public/
@@ -338,15 +272,15 @@ haciendas-nearby-public/
 │  ├─ *.jpg
 │  └─ ...
 ├─ requirements.txt        # Python dependencies
-└─ README.md               # This bilingual academic-style README
+└─ README.md               # This bilingual README
 ```
 
 > **Nota (español):**  
-> Los archivos adicionales (por ejemplo, notebooks, scripts de exportación, etc.) deben documentarse aquí si afectan el flujo público.
+> Archivos adicionales (por ejemplo, notebooks o scripts de exportación) se pueden documentar aquí si afectan el flujo público.
 
 ---
 
-## 10. Methodological and academic notes / Notas metodológicas y académicas
+## 8. Methodological and academic notes / Notas metodológicas y académicas
 
 From an academic and digital-humanities perspective, this project can be characterized as:
 
@@ -359,32 +293,75 @@ From an academic and digital-humanities perspective, this project can be charact
 
 ---
 
-## 11. License and attribution / Licencia y atribución
+## 9. License and attribution / Licencia y atribución
 
-> **Important (español):**  
-> Completa esta sección según los derechos de autor del libro base y del KML original.
+### 9.1. Code / Código
 
-Suggested structure:
+Unless otherwise noted, the **application code** in this repository (e.g. `app_public.py`) is released under the MIT License:
 
-- State the software license (e.g. MIT License, or another license of your choice).
-- Clarify the status of the underlying data:
-  - Whether it is open data.
-  - Whether it is subject to any usage restrictions due to the source (book, KML, images).
+> **Copyright © 2026 FERDIEX**  
+>  
+> Permission is hereby granted, free of charge, to any person obtaining a copy  
+> of this software and associated documentation files (the "Software"), to deal  
+> in the Software without restriction, including without limitation the rights  
+> to use, copy, modify, merge, publish, distribute, sublicense, and/or sell  
+> copies of the Software, and to permit persons to whom the Software is  
+> furnished to do so, subject to the following conditions:  
+>  
+> The above copyright notice and this permission notice shall be included in all  
+> copies or substantial portions of the Software.  
+>  
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR  
+> IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,  
+> FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  
+> AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER  
+> LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,  
+> OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE  
+> SOFTWARE.
 
-Example (you must adapt to your actual terms):
+> **Nota (español):**  
+> Si prefieres otra licencia de software (p. ej. Apache‑2.0, GPL, BSD), puedes cambiar este apartado y añadir el archivo de licencia correspondiente.
 
-> The code in this repository is released under the MIT License.  
-> The underlying catalog data and images are based on a manually curated interpretation of a printed book and an original KML file.  
-> Please verify and respect any copyright and usage restrictions that may apply to the original sources.
+### 9.2. Catalog data and derived dataset / Datos del catálogo y conjunto derivado
+
+The **curated public catalog** contained in `catalog_public.json` (and, when applicable, simple derived exports such as the CSV/GeoJSON/GPX generated by the app) is licensed under:
+
+> **Creative Commons Attribution–NonCommercial 4.0 International (CC BY‑NC 4.0)**  
+> [https://creativecommons.org/licenses/by-nc/4.0/](https://creativecommons.org/licenses/by-nc/4.0/)
+
+This means, in summary:
+
+- You are free to **share** (copy and redistribute) and **adapt** (remix, transform, and build upon) the catalog.
+- Under the following terms:
+  - **Attribution** – You must give appropriate credit to this project and provide a link to the license.
+  - **NonCommercial** – You may not use the material for commercial purposes.
+
+> **Importante (español):**  
+> Para usar una licencia Creative Commons no necesitas “tramitar” nada especial:  
+> basta con elegir la licencia adecuada y mencionarla explícitamente (como aquí).  
+> Aun así, esta licencia solo se aplica a los elementos sobre los que sí tienes derechos (el catálogo curado, tus anotaciones, tus descripciones, etc.).
+
+### 9.3. Underlying sources and original book / Fuentes de origen y libro base
+
+The curated catalog is **based on** external sources that **do have their own copyright**:
+
+- The printed book:  
+  *Guzmán-Álvarez, A. (2013).* **Arquitectura de la memoria: haciendas poblanas**. Benemérita Universidad Autónoma de Puebla.
+- The original KML dataset (no incluido aquí) y otras fuentes complementarias.
+
+The rights to the full text, images, and layout of the book belong to their respective copyright holders.  
+This project **does not** grant any additional rights over the book itself.
+
+> **Nota (español):**  
+> El uso detallado de contenido del libro (por ejemplo, textos extensos, fotografías originales o reproducciones completas) solo debe hacerse **previa solicitud y autorización expresa del autor y/o los titulares de derechos**.  
+>  
+> El catálogo público en este repositorio contiene una selección y organización propia de datos geográficos y nombres, pero **no sustituye** al libro original ni reproduce su contenido textual de forma sustancial.
 
 ---
 
-## 12. Acknowledgements / Agradecimientos
+## 10. Acknowledgements / Agradecimientos
 
-- Original author(s) of the book on Puebla haciendas.
-- Contributors to the KML dataset.
-- Community feedback and testers.
+- Thanks to Architect Ambrosio Guzmán for providing a copy of the original book and for his reference work on the haciendas of Puebla.
 - Streamlit community and open-source ecosystem.
 
-> **Gracias / Thank you** for using and contributing to this public explorer of Puebla’s haciendas.
-
+> **Gracias / Thank you** for using and exploring this public read-only viewer of Puebla’s haciendas.
